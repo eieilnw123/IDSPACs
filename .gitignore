@@ -1,0 +1,49 @@
+# Visual Studio
+.vs/
+*.vsidx
+*.vspscc
+*.user
+*.suo
+*.sln.docstates
+bin/
+obj/
+*.cache
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+build/
+bld/
+
+# .NET
+*.dll
+*.exe
+*.pdb
+packages/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+*.mdf
+*.ldf
+*.bak
+*.sql
+*.accdb
+*.mdb
+App_Data/
+*.sdf
+*.dbmdl
+
+# Connection strings & configs
+appsettings.json
+appsettings.*.json
+connectionStrings.json
+web.config.secret
+
+# Third-party libraries (optional)
+wwwroot/lib/
+
+# OS
+.DS_Store
+Thumbs.db
