@@ -1,0 +1,264 @@
+﻿@page "/dashboard"
+@model idspacsgateway.Pages.Dashboard.IndexModel
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "_DashboardLayout";
+}
+<link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+<!-- ใช้ HTML จากไฟล์เดิม พร้อม tabs -->
+<div class="container">
+    <div class="header">
+        <h1>🏥 EKG Worklist Service Dashboard</h1>
+        <div class="last-update">Last updated: <span id="lastUpdate">--:--:--</span></div>
+        <div class="connection-status" id="connectionStatus">
+            🔴 Connecting...
+        </div>
+    </div>
+
+    <!-- Dashboard Tabs -->
+    <div class="dashboard-tabs" style="margin-bottom: 20px;">
+        <button class="tab-btn active" onclick="showTab('overview')">📊 Overview</button>
+       <button class="tab-btn" onclick="showTab('logs')">📋 Logs & Files</button>
+   </div>
+
+   <!-- Overview Tab -->
+   <div id="overview-tab" class="tab-content">
+       <!-- Action Buttons -->
+       <div class="action-buttons">
+           <button class="action-btn" onclick="triggerManualSync()">🔄 Manual Sync</button>
+           <button class="action-btn" onclick="retryFailedItems()">🔄 Retry Failed</button>
+           <button class="action-btn" onclick="processPendingFiles()">📄 Process Pending</button>
+           <button class="action-btn" onclick="refreshDashboard()">↻ Refresh</button>
+       </div>
+
+       <!-- Status Cards -->
+       <div class="status-grid">
+           <div class="status-card">
+               <div class="card-header">
+                   <div class="card-icon">📋</div>
+                   <div class="card-title">Worklist Items</div>
+               </div>
+               <div class="card-value" id="totalItems">--</div>
+               <div class="card-subtitle">
+                   <span class="status-indicator status-online"></span>
+                   Last sync: <span id="lastSync">--</span>
+               </div>
+               <div class="progress-bar">
+                   <div class="progress-fill" id="syncProgress" style="width: 0%"></div>
+               </div>
+           </div>
+
+           <div class="status-card">
+               <div class="card-header">
+                   <div class="card-icon">📄</div>
+                   <div class="card-title">PDF Monitoring</div>
+               </div>
+               <div class="card-value" id="pendingPdfs">--</div>
+               <div class="card-subtitle">
+                   <span class="status-indicator" id="pdfStatus"></span>
+                   <span id="pdfStatusText">Monitoring...</span>
+               </div>
+           </div>
+
+           <div class="status-card">
+               <div class="card-header">
+                   <div class="card-icon">🖼️</div>
+                   <div class="card-title">PDF Processing</div>
+               </div>
+               <div class="card-value" id="processingQueue">--</div>
+               <div class="card-subtitle">
+                   Active: <span id="activeProcessing">0</span> / <span id="maxProcessing">2</span>
+               </div>
+               <div class="progress-bar">
+                   <div class="progress-fill" id="processingProgress" style="width: 0%"></div>
+               </div>
+           </div>
+
+           <div class="status-card">
+               <div class="card-header">
+                   <div class="card-icon">🏥</div>
+                   <div class="card-title">DICOM Creation</div>
+               </div>
+               <div class="card-value" id="dicomQueue">--</div>
+               <div class="card-subtitle">
+                   Created: <span id="dicomCount">0</span> files
+               </div>
+               <div class="progress-bar">
+                   <div class="progress-fill" id="dicomProgress" style="width: 0%"></div>
+               </div>
+           </div>
+       </div>
+
+       <!-- Worklist Table Section -->
+       <div class="table-section">
+           <div class="table-header">
+               <div class="table-title">📊 Recent Worklist Items</div>
+               <div class="table-controls">
+                   <select class="table-filter" id="statusFilter" onchange="filterTable()">
+                       <option value="all">All Status</option>
+                       <option value="SCHEDULED">Scheduled</option>
+                       <option value="PDF_RECEIVED">PDF Received</option>
+                       <option value="JPEG_GENERATED">JPEG Generated</option>
+                       <option value="DICOM_CREATED">DICOM Created</option>
+                       <option value="COMPLETED">Completed</option>
+                       <option value="FAILED">Failed</option>
+                   </select>
+                   <input type="text" class="table-search" id="patientSearch" placeholder="🔍 Search Patient ID or Name..." onkeyup="filterTable()">
+               </div>
+           </div>
+           
+           <table class="worklist-table" id="worklistTable">
+               <thead>
+                   <tr>
+                       <th>Patient Info</th>
+                       <th>Accession</th>
+                       <th>Status</th>
+                       <th>Progress</th>
+                       <th>Files</th>
+                       <th>Scheduled</th>
+                       <th>Updated</th>
+                   </tr>
+               </thead>
+               <tbody id="worklistTableBody">
+                   <!-- Table rows will be populated by JavaScript -->
+               </tbody>
+           </table>
+
+           <div class="table-pagination">
+               <div class="pagination-info" id="paginationInfo">
+                   Showing 0 - 0 of 0 items
+               </div>
+               <div class="pagination-controls" id="paginationControls">
+                   <!-- Pagination buttons will be generated by JavaScript -->
+               </div>
+           </div>
+       </div>
+
+       <!-- Charts Section -->
+       <div class="charts-section">
+           <div class="chart-card">
+               <div class="chart-title">📊 Status Distribution</div>
+               <div class="chart-container">
+                   <div style="padding: 20px;">
+                       <div style="margin-bottom: 10px;">
+                           <strong>Completed:</strong> <span id="completedCount">--</span>
+                       </div>
+                       <div style="margin-bottom: 10px;">
+                           <strong>Pending:</strong> <span id="pendingCount">--</span>
+                       </div>
+                       <div style="margin-bottom: 10px;">
+                           <strong>Failed:</strong> <span id="failedCount">--</span>
+                       </div>
+                       <div>
+                           <strong>Today:</strong> <span id="todayCount">--</span>
+                       </div>
+                   </div>
+               </div>
+           </div>
+
+           <div class="chart-card">
+               <div class="chart-title">⏱️ Performance Metrics</div>
+               <div class="chart-container">
+                   <div style="padding: 20px;">
+                       <div style="margin-bottom: 15px;">
+                           <strong>Success Rate:</strong> <span id="successRate">--%</span>
+                       </div>
+                       <div style="margin-bottom: 15px;">
+                           <strong>Completion Rate:</strong> <span id="completionRate">--%</span>
+                       </div>
+                       <div>
+                           <strong>System Status:</strong> 
+                           <span id="systemStatus" class="pulse" style="color: #4CAF50;">🟢 Healthy</span>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+
+       <!-- Live Logs Section -->
+       <div class="logs-section">
+           <div class="logs-header">
+               <div class="logs-title">📝 Live System Logs</div>
+               <div class="logs-controls">
+                   <button class="log-btn active" onclick="toggleLogLevel('all')">All</button>
+                   <button class="log-btn" onclick="toggleLogLevel('info')">Info</button>
+                   <button class="log-btn" onclick="toggleLogLevel('warning')">Warning</button>
+                   <button class="log-btn" onclick="toggleLogLevel('error')">Error</button>
+                   <button class="log-btn" onclick="clearLogs()">Clear</button>
+                   <button class="log-btn" onclick="toggleAutoScroll()">Auto Scroll</button>
+               </div>
+           </div>
+           <div class="logs-container" id="logsContainer">
+               <div class="log-entry log-info">[Loading...] Connecting to log server...</div>
+           </div>
+       </div>
+   </div>
+
+   <!-- Logs & Files Tab -->
+   <div id="logs-tab" class="tab-content" style="display: none;">
+       <!-- File Checker Section -->
+       <div class="table-section" style="margin-bottom: 20px;">
+           <div class="table-header">
+               <div class="table-title">📁 File Checker</div>
+           </div>
+           <div style="padding: 20px;">
+               <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                   <input type="text" id="checkFileName" placeholder="Enter PDF filename (e.g., 12-45325.pdf)" 
+                          style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                   <button onclick="checkFileLocation()" 
+                           style="padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                       🔍 Check File
+                   </button>
+               </div>
+               <div id="file-check-result"></div>
+           </div>
+       </div>
+
+       <!-- Log Search Section -->
+       <div class="table-section" style="margin-bottom: 20px;">
+           <div class="table-header">
+               <div class="table-title">🔍 Log Search</div>
+           </div>
+           <div style="padding: 20px;">
+               <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+                   <input type="text" id="logSearchKeyword" placeholder="Search logs..." 
+                          style="flex: 1; min-width: 200px; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                   <select id="logSearchHours" style="padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                       <option value="1">Last 1 hour</option>
+                       <option value="6">Last 6 hours</option>
+                       <option value="24" selected>Last 24 hours</option>
+                       <option value="72">Last 3 days</option>
+                   </select>
+                   <button onclick="searchLogs()" 
+                           style="padding: 10px 15px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                       🔍 Search
+                   </button>
+                   <button onclick="loadRecentLogs()" 
+                           style="padding: 10px 15px; background: #2196F3; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                       📋 Recent
+                   </button>
+               </div>
+               <div id="log-search-result" style="max-height: 400px; overflow-y: auto; background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; font-size: 12px;">
+                   <div style="color: #666;">Click "Recent" to load latest logs or use search above...</div>
+               </div>
+           </div>
+       </div>
+
+       <!-- Folder Browser Section -->
+       <div class="table-section">
+           <div class="table-header">
+               <div class="table-title">📁 Folder Browser</div>
+               <button onclick="loadFolderInfo()" 
+                       style="padding: 8px 16px; background: #9C27B0; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                   🔄 Refresh Folders
+               </button>
+           </div>
+           <div id="folder-browser" style="padding: 20px;">
+               <div style="color: #666;">Click "Refresh Folders" to load folder information...</div>
+           </div>
+       </div>
+   </div>
+</div>
+
+
+

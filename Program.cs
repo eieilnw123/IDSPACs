@@ -1,22 +1,49 @@
-﻿using WorklistServiceApp;
+﻿// Program.cs
+using WorklistServiceApp;
 using WorklistServiceApp.Configuration;
 using WorklistServiceApp.Data;
 using WorklistServiceApp.Services;
+using idspacsgateway.Hubs;
+using idspacsgateway.Services;
+using Serilog;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// ===== SERILOG CONFIGURATION =====
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
+    .Enrich.FromLogContext()
+    .WriteTo.Console(
+        outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
+    .WriteTo.File(
+        path: "Logs/ekg-gateway-.log",
+        rollingInterval: RollingInterval.Day,
+        retainedFileCountLimit: 30,
+        outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff} {Level:u3}] [{SourceContext}] {Message:lj}{NewLine}{Exception}")
+    .WriteTo.File(
+        path: "Logs/ekg-errors-.log",
+        restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Warning,
+        rollingInterval: RollingInterval.Day,
+        retainedFileCountLimit: 90,
+        outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff} {Level:u3}] [{SourceContext}] {Message:lj}{NewLine}{Exception}")
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 // Set encoding for Thai character support
 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 Console.OutputEncoding = Encoding.UTF8;
 Console.InputEncoding = Encoding.UTF8;
 
-// Add Razor Pages UI
+// Add services
 builder.Services.AddRazorPages();
+builder.Services.AddSignalR(); // เพิ่ม SignalR
+builder.Services.AddControllers(); // เพิ่ม Controllers สำหรับ API
 
 // ✅ Utility services
 builder.Services.AddSingleton<WorklistServiceApp.Utils.FileNameParser>();
-
 
 // ✅ Configuration bindings
 builder.Services.Configure<DicomCreationConfiguration>(
@@ -33,14 +60,16 @@ builder.Services.Configure<PdfProcessingConfiguration>(
 // ✅ Database service
 builder.Services.AddSingleton<DatabaseService>();
 
-// ✅ Register services as singletons first (so they can be injected into each other)
+// ✅ Core services (existing)
 builder.Services.AddSingleton<WorklistSyncService>();
 builder.Services.AddSingleton<PdfMonitoringService>();
 builder.Services.AddSingleton<PdfProcessingService>();
 builder.Services.AddSingleton<DicomCreationService>();
-// builder.Services.AddSingleton<DicomSendService>(); // Add when ready
 
-// ✅ Register as hosted services (will use the same singleton instances)
+// ✅ Dashboard services (new)
+builder.Services.AddSingleton<LoggingService>();
+
+// ✅ Register as hosted services
 builder.Services.AddHostedService<WorklistSyncService>(provider =>
     provider.GetRequiredService<WorklistSyncService>());
 builder.Services.AddHostedService<PdfMonitoringService>(provider =>
@@ -75,9 +104,19 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
-app.MapRazorPages();
 
-// Add a simple health check endpoint
+// ✅ Map services
+app.MapRazorPages();
+app.MapControllers(); // เพิ่ม API Controllers
+app.MapHub<LogHub>("/logHub"); // เพิ่ม SignalR Hub
+
+// เพิ่ม File & Log Management APIs ตามที่เขียนไว้ด้านบน
+// (ใส่โค้ด API endpoints ทั้งหมดที่เขียนไว้ในขั้นตอนที่ 6)
+
+// Default route to dashboard
+app.MapGet("/", () => Results.Redirect("/dashboard"));
+
+// Health check endpoint
 app.MapGet("/health", async (DatabaseService dbService) =>
 {
     try
@@ -97,46 +136,26 @@ app.MapGet("/health", async (DatabaseService dbService) =>
     }
 });
 
-// Add a simple status endpoint
-app.MapGet("/status", (
-    WorklistSyncService syncService,
-    PdfMonitoringService pdfMonitoringService,
-    PdfProcessingService pdfProcessingService,
-    DicomCreationService dicomCreationService) =>
-{
-    return Results.Ok(new
-    {
-        timestamp = DateTime.Now,
-        services = new
-        {
-            pdfMonitoring = pdfMonitoringService.GetMonitoringStatus(),
-            pdfProcessing = pdfProcessingService.GetProcessingStatus(),
-            dicomCreation = dicomCreationService.GetCreationStatus()
-        }
-    });
-});
+// Cleanup when app stops
+app.Lifetime.ApplicationStopping.Register(Log.CloseAndFlush);
 
-Console.WriteLine("🚀 EKG Worklist Service Web Application starting...");
+Console.WriteLine("🚀 EKG Worklist Service with Hybrid Dashboard starting...");
 Console.WriteLine($"🌐 Environment: {app.Environment.EnvironmentName}");
 Console.WriteLine($"📱 URLs: {string.Join(", ", app.Urls)}");
+Console.WriteLine($"🖥️ Dashboard: https://localhost:7104/dashboard");
 
-
-// แสดงข้อมูลเพิ่มเติมใน Development
 if (app.Environment.IsDevelopment())
 {
     Console.WriteLine("🔧 Development Mode Features:");
-    Console.WriteLine("   - Detailed error pages");
-    Console.WriteLine("   - Debug endpoints available");
-    Console.WriteLine("   - Hot reload enabled");
+    Console.WriteLine("   - File logging enabled");
+    Console.WriteLine("   - Real-time logs via SignalR");
+    Console.WriteLine("   - Dashboard polling every 20 seconds");
     Console.WriteLine("📊 Available endpoints:");
+    Console.WriteLine("   - GET  /dashboard");
     Console.WriteLine("   - GET  /health");
-    Console.WriteLine("   - GET  /status");
-    Console.WriteLine("   - GET  /debug/services");
-    Console.WriteLine("   - GET  /debug/pdf-folder");
-    Console.WriteLine("   - POST /debug/add-test-patient/{id}");
+    Console.WriteLine("   - GET  /api/dashboard/status");
+    Console.WriteLine("   - GET  /api/dashboard/worklist");
 }
-
-
 
 app.Run();
 
@@ -150,7 +169,7 @@ static async Task InitializeApplication(WebApplication app)
     {
         logger.LogInformation("🔧 Initializing application...");
 
-        // Test database connection by trying to get sync statistics
+        // Test database connection
         var dbService = scope.ServiceProvider.GetRequiredService<DatabaseService>();
         try
         {
@@ -178,7 +197,7 @@ static async Task InitializeApplication(WebApplication app)
     }
 }
 
-static async Task CreateRequiredFolders(IServiceProvider services, ILogger logger)
+static async Task CreateRequiredFolders(IServiceProvider services, Microsoft.Extensions.Logging.ILogger logger)
 {
     var pdfConfig = services.GetRequiredService<Microsoft.Extensions.Options.IOptions<PdfMonitoringConfiguration>>();
     var processingConfig = services.GetRequiredService<Microsoft.Extensions.Options.IOptions<PdfProcessingConfiguration>>();
@@ -186,6 +205,7 @@ static async Task CreateRequiredFolders(IServiceProvider services, ILogger logge
 
     var foldersToCreate = new[]
     {
+        "Logs", // เพิ่ม Logs folder
         pdfConfig.Value.WatchFolderPath,
         pdfConfig.Value.ArchiveFolderPath,
         processingConfig.Value.TempJpegFolderPath,
@@ -203,22 +223,23 @@ static async Task CreateRequiredFolders(IServiceProvider services, ILogger logge
     }
 }
 
-static void WireUpServiceEvents(IServiceProvider services, ILogger logger)
+static void WireUpServiceEvents(IServiceProvider services, Microsoft.Extensions.Logging.ILogger logger)
 {
     try
     {
         logger.LogInformation("🔗 Wiring up service events...");
 
-        // Get services (these are singletons)
+        // Get services
         var pdfMonitoringService = services.GetRequiredService<PdfMonitoringService>();
         var pdfProcessingService = services.GetRequiredService<PdfProcessingService>();
         var dicomCreationService = services.GetRequiredService<DicomCreationService>();
+        var loggingService = services.GetRequiredService<LoggingService>(); // เพิ่มบรรทัดนี้
 
-        // 📄 PDF File Detected → 🖼️ Queue for Processing
-        pdfMonitoringService.PdfFileDetected += (sender, e) =>
+        // 📄 PDF File Detected → 🖼️ Queue for Processing + Log
+        pdfMonitoringService.PdfFileDetected += async (sender, e) =>
         {
-            logger.LogInformation("🔗 Event: PDF detected for {PatientID} → Queueing for processing",
-                e.WorklistItem?.PatientID ?? e.ExtractedHN);
+            await loggingService.SendLogToClients("info",
+                $"📄 PDF detected: {e.ExtractedHN} → {Path.GetFileName(e.PdfFilePath)}", "PdfMonitoring");
 
             if (e.WorklistItem != null)
             {
@@ -226,36 +247,34 @@ static void WireUpServiceEvents(IServiceProvider services, ILogger logger)
             }
         };
 
-        // 🖼️ PDF Processing Completed → 🏥 Queue for DICOM Creation
-        pdfProcessingService.PdfProcessingCompleted += (sender, e) =>
+        // 🖼️ PDF Processing Completed → 🏥 Queue for DICOM Creation + Log
+        pdfProcessingService.PdfProcessingCompleted += async (sender, e) =>
         {
             if (e.Success && !string.IsNullOrEmpty(e.JpegFilePath))
             {
-                logger.LogInformation("🔗 Event: PDF processing completed for {PatientID} → Queueing for DICOM creation",
-                    e.WorklistItem.PatientID);
+                await loggingService.SendLogToClients("info",
+                    $"🖼️ PDF processed: {e.WorklistItem.PatientID} → JPEG created", "PdfProcessing");
                 dicomCreationService.QueueJpegForDicomCreation(e.WorklistItem, e.JpegFilePath);
             }
             else
             {
-                logger.LogWarning("🔗 Event: PDF processing failed for {PatientID}: {Error}",
-                    e.WorklistItem.PatientID, e.ErrorMessage);
+                await loggingService.SendLogToClients("error",
+                    $"❌ PDF processing failed: {e.WorklistItem.PatientID} - {e.ErrorMessage}", "PdfProcessing");
             }
         };
 
-        // 🏥 DICOM Creation Completed → 📤 Ready for Sending (เตรียมไว้สำหรับ DicomSendService)
-        dicomCreationService.DicomCreationCompleted += (sender, e) =>
+        // 🏥 DICOM Creation Completed → Log
+        dicomCreationService.DicomCreationCompleted += async (sender, e) =>
         {
             if (e.Success && !string.IsNullOrEmpty(e.DicomFilePath))
             {
-                logger.LogInformation("🔗 Event: DICOM creation completed for {PatientID} → Ready for sending to PACS",
-                    e.WorklistItem.PatientID);
-                // TODO: เมื่อมี DicomSendService แล้ว ให้เรียก:
-                // dicomSendService.QueueDicomForSending(e.WorklistItem, e.DicomFilePath);
+                await loggingService.SendLogToClients("info",
+                    $"🏥 DICOM created: {e.WorklistItem.PatientID} → {Path.GetFileName(e.DicomFilePath)}", "DicomCreation");
             }
             else
             {
-                logger.LogWarning("🔗 Event: DICOM creation failed for {PatientID}: {Error}",
-                    e.WorklistItem.PatientID, e.ErrorMessage);
+                await loggingService.SendLogToClients("error",
+                    $"❌ DICOM creation failed: {e.WorklistItem.PatientID} - {e.ErrorMessage}", "DicomCreation");
             }
         };
 
