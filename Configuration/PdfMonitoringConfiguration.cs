@@ -7,7 +7,7 @@
         /// <summary>
         /// Folder path to monitor for incoming PDF files
         /// </summary>
-        public string WatchFolderPath { get; set; } = @"C:\EKG_PDF_Input";
+        public string WatchFolderPath { get; set; } = @"C:\Schiller\SchillerServers\_Data\Export\PDF";
 
         /// <summary>
         /// File filter pattern (e.g., "*.pdf")

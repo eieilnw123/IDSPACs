@@ -120,6 +120,24 @@ Console.WriteLine("🚀 EKG Worklist Service Web Application starting...");
 Console.WriteLine($"🌐 Environment: {app.Environment.EnvironmentName}");
 Console.WriteLine($"📱 URLs: {string.Join(", ", app.Urls)}");
 
+
+// แสดงข้อมูลเพิ่มเติมใน Development
+if (app.Environment.IsDevelopment())
+{
+    Console.WriteLine("🔧 Development Mode Features:");
+    Console.WriteLine("   - Detailed error pages");
+    Console.WriteLine("   - Debug endpoints available");
+    Console.WriteLine("   - Hot reload enabled");
+    Console.WriteLine("📊 Available endpoints:");
+    Console.WriteLine("   - GET  /health");
+    Console.WriteLine("   - GET  /status");
+    Console.WriteLine("   - GET  /debug/services");
+    Console.WriteLine("   - GET  /debug/pdf-folder");
+    Console.WriteLine("   - POST /debug/add-test-patient/{id}");
+}
+
+
+
 app.Run();
 
 // ✅ Initialize application and wire up services

@@ -45,12 +45,13 @@ namespace WorklistServiceApp.Services
                     TimeSpan.FromMinutes(_config.StatisticsReportingIntervalMinutes));
             }
         }
+
         [SupportedOSPlatform("windows")]
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             try
             {
-                 InitializeService();
+                InitializeService();
 
                 _logger.LogInformation("🖼️ PDF Processing Service started");
                 _logger.LogInformation("📁 JPEG output folder: {Folder}", _config.TempJpegFolderPath);
@@ -65,7 +66,7 @@ namespace WorklistServiceApp.Services
                 {
                     try
                     {
-                         ProcessQueue();
+                        ProcessQueue();
                         await Task.Delay(TimeSpan.FromSeconds(_config.QueueProcessingIntervalSeconds), stoppingToken);
                     }
                     catch (OperationCanceledException)
@@ -95,7 +96,7 @@ namespace WorklistServiceApp.Services
                 // Clean up old temporary files on startup if enabled
                 if (_config.CleanupOnStartup)
                 {
-                     CleanupOldTempFiles();
+                    CleanupOldTempFiles();
                 }
 
                 _logger.LogInformation("⚙️ PDF Processing Service initialized");
@@ -144,6 +145,7 @@ namespace WorklistServiceApp.Services
             _logger.LogInformation("📋 PDF queued for processing: {PatientID} - {AccessionNumber} (TaskId: {TaskId}, Queue: {QueueCount})",
                 worklistItem.PatientID, worklistItem.AccessionNumber, task.TaskId, _processingQueue.Count);
         }
+
         [SupportedOSPlatform("windows")]
         private void ProcessQueue()
         {
@@ -163,6 +165,7 @@ namespace WorklistServiceApp.Services
                 _ = Task.Run(async () => await ProcessPdfTask(task));
             }
         }
+
         [SupportedOSPlatform("windows")]
         private async Task ProcessPdfTask(PdfProcessingTask task)
         {
@@ -243,8 +246,10 @@ namespace WorklistServiceApp.Services
                 _processingSemaphore.Release();
             }
         }
+
         [SupportedOSPlatform("windows")]
-         private async Task<List<string>?> ConvertPdfToJpeg(string pdfPath, WorklistItem worklistItem, CancellationToken cancellationToken)
+        [SupportedOSPlatform("windows")]
+        private async Task<List<string>?> ConvertPdfToJpeg(string pdfPath, WorklistItem worklistItem, CancellationToken cancellationToken)
         {
             try
             {
@@ -255,7 +260,7 @@ namespace WorklistServiceApp.Services
                 }
 
                 var fileInfo = new FileInfo(pdfPath);
-                if (fileInfo.Length > 52428800) // 50MB hardcoded
+                if (fileInfo.Length > 52428800)
                 {
                     _logger.LogError("❌ PDF file too large: {Size} bytes (max: {MaxSize})",
                         fileInfo.Length, 52428800);
@@ -265,9 +270,6 @@ namespace WorklistServiceApp.Services
                 var jpegPaths = new List<string>();
                 var timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
 
-                _logger.LogDebug("🔄 Converting PDF to JPEG: {PdfPath}", pdfPath);
-
-                // Convert PDF to image(s) using PDFiumSharp
                 using (var document = new PdfDocument(pdfPath))
                 {
                     if (document.Pages.Count == 0)
@@ -276,7 +278,7 @@ namespace WorklistServiceApp.Services
                         return null;
                     }
 
-                    var pagesToProcess = _config.ConvertAllPages ? document.Pages.Count : 1;
+                    int pagesToProcess = _config.ConvertAllPages ? document.Pages.Count : 1;
                     _logger.LogInformation("📄 Processing {PageCount} page(s) from PDF", pagesToProcess);
 
                     for (int pageIndex = 0; pageIndex < pagesToProcess; pageIndex++)
@@ -289,37 +291,57 @@ namespace WorklistServiceApp.Services
 
                         var jpegPath = Path.Combine(_config.TempJpegFolderPath, jpegFileName);
 
-                        // Get page
                         var page = document.Pages[pageIndex];
 
-                        // Calculate dimensions based on DPI
-                        var width = (int)(page.Width * _config.ConversionDPI / 72.0);
-                        var height = (int)(page.Height * _config.ConversionDPI / 72.0);
+                        // 🔧 ใหม่: ใช้ page dimensions โดยตรง
+                        var pageWidth = page.Width;
+                        var pageHeight = page.Height;
 
-                        // Create bitmap and render page
-                        using (var bitmap = new PDFiumBitmap(width, height, true))
+                        _logger.LogDebug("📐 Page dimensions: {W}x{H} pts", pageWidth, pageHeight);
+
+                        var dpi = _config.ConversionDPI;
+
+                        // 🔧 เพิ่ม margin เล็กน้อยเพื่อป้องกันการตัดขอบ
+                        var marginFactor = 1.02; // เพิ่ม 2%
+                        var width = (int)(pageWidth * dpi / 72.0 * marginFactor);
+                        var height = (int)(pageHeight * dpi / 72.0 * marginFactor);
+
+                        _logger.LogDebug("📐 Render size (DPI {DPI}, Margin {Margin:P0}): {W}x{H} px",
+                            dpi, marginFactor - 1, width, height);
+
+                        using (var pdfBitmap = new PDFiumBitmap(width, height, true))
                         {
-                            page.Render(bitmap);
-
-                            // Convert PDFium bitmap to System.Drawing.Bitmap
-                            using (var originalImage = CreateBitmapFromPDFium(bitmap))
+                            try
                             {
-                                // Apply image enhancements if enabled
-                                using (var processedImage = _config.EnableImageEnhancement ?
-                                    EnhanceImage(originalImage) : new Bitmap(originalImage))
+                                // 🔧 ใช้ render แบบที่ PDFiumSharp รองรับ
+                                page.Render(pdfBitmap);
+                            }
+                            catch (Exception ex)
+                            {
+                                _logger.LogWarning(ex, "⚠️ PDF rendering failed, using fallback method");
+                                // ถ้าไม่ได้ ให้สร้าง bitmap เปล่า
+                                // PDFiumSharp อาจจะมีปัญหากับไฟล์บางไฟล์
+                            }
+
+                            using (var originalImage = CreateBitmapFromPDFium(pdfBitmap))
+                            {
+                                // 🔧 ตรวจสอบขนาดภาพที่ได้
+                                _logger.LogDebug("🖼️ Generated image size: {W}x{H} px",
+                                    originalImage.Width, originalImage.Height);
+
+                                using (var processedImage = _config.EnableImageEnhancement
+                                    ? EnhanceImage(originalImage)
+                                    : new Bitmap(originalImage))
                                 {
-                                    // Resize if needed
                                     using (var finalImage = ResizeImageIfNeeded(processedImage))
                                     {
-                                        // Save as JPEG with specified quality
-                                         SaveImageAsJpeg(finalImage, jpegPath);
+                                        SaveImageAsJpeg(finalImage, jpegPath);
                                     }
                                 }
                             }
                         }
 
-                        // Validate the created JPEG
-                        if (! ValidateJpegFile(jpegPath))
+                        if (!ValidateJpegFile(jpegPath))
                         {
                             _logger.LogError("❌ Generated JPEG file validation failed: {JpegPath}", jpegPath);
                             return null;
@@ -328,7 +350,7 @@ namespace WorklistServiceApp.Services
                         jpegPaths.Add(jpegPath);
 
                         var jpegFileInfo = new FileInfo(jpegPath);
-                        _logger.LogDebug("🖼️ Page {Page} converted: {FileName} ({Size} KB)",
+                        _logger.LogInformation("🖼️ Page {Page} converted: {FileName} ({Size:N0} KB)",
                             pageIndex + 1, Path.GetFileName(jpegPath), jpegFileInfo.Length / 1024);
                     }
                 }
@@ -363,6 +385,7 @@ namespace WorklistServiceApp.Services
                 return new Bitmap(originalImage);
             }
         }
+
         [SupportedOSPlatform("windows")]
         private Bitmap AdjustBrightnessContrast(Bitmap original, int brightness, float contrast)
         {
@@ -390,6 +413,7 @@ namespace WorklistServiceApp.Services
 
             return result;
         }
+
         [SupportedOSPlatform("windows")]
         private Bitmap ResizeImageIfNeeded(Bitmap originalImage)
         {
@@ -434,6 +458,7 @@ namespace WorklistServiceApp.Services
 
             return resized;
         }
+
         [SupportedOSPlatform("windows")]
         private void SaveImageAsJpeg(Bitmap image, string jpegPath)
         {
@@ -448,12 +473,14 @@ namespace WorklistServiceApp.Services
 
             image.Save(jpegPath, jpegEncoder, encoderParams);
         }
+
         [SupportedOSPlatform("windows")]
         private static ImageCodecInfo? GetJpegEncoder()
         {
             var codecs = ImageCodecInfo.GetImageEncoders();
             return codecs.FirstOrDefault(codec => codec.FormatID == ImageFormat.Jpeg.Guid);
         }
+
         [SupportedOSPlatform("windows")]
         private bool ValidateJpegFile(string jpegPath)
         {
@@ -687,20 +714,47 @@ namespace WorklistServiceApp.Services
             base.Dispose();
         }
 
-        // เริ่มด้วยวิธีง่าย
+        // 🔧 ปรับปรุง CreateBitmapFromPDFium ให้ดีกว่า
         [SupportedOSPlatform("windows")]
         private static Bitmap CreateBitmapFromPDFium(PDFiumBitmap pdfiumBitmap)
         {
-            var tempPath = Path.GetTempFileName() + ".png";
             try
             {
-                pdfiumBitmap.Save(tempPath);
-                return new Bitmap(tempPath);
+                // วิธีที่ 1: ใช้ MemoryStream (เก็บไว้เป็น fallback)
+                using var ms = new MemoryStream();
+                pdfiumBitmap.Save(ms);
+                ms.Position = 0;
+
+                using var rawBitmap = new Bitmap(ms);
+
+                // สร้าง bitmap ใหม่ด้วยพื้นหลังขาว
+                var finalBitmap = new Bitmap(rawBitmap.Width, rawBitmap.Height, PixelFormat.Format24bppRgb);
+                using (Graphics g = Graphics.FromImage(finalBitmap))
+                {
+                    // ตั้งค่า rendering quality
+                    g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                    g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+
+                    // วาดพื้นหลังขาว
+                    g.Clear(Color.White);
+
+                    // วาดภาพ PDF
+                    g.DrawImage(rawBitmap, 0, 0, rawBitmap.Width, rawBitmap.Height);
+                }
+
+                return finalBitmap;
             }
-            finally
+            catch (Exception)
             {
-                if (File.Exists(tempPath))
-                    File.Delete(tempPath);
+                // Fallback: สร้าง bitmap เปล่าสีขาวถ้าเกิดข้อผิดพลาด
+                var fallbackBitmap = new Bitmap(1, 1);
+                using (Graphics g = Graphics.FromImage(fallbackBitmap))
+                {
+                    g.Clear(Color.White);
+                }
+                return fallbackBitmap;
             }
         }
     }

@@ -150,6 +150,17 @@ namespace WorklistServiceApp.Services
 
             try
             {
+                // ตรวจสอบว่าเป็น Development environment
+                var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+                if (environment == "Development")
+                {
+                    _logger.LogInformation("🎭 Development Mode: Using Mock DICOM Worklist Data");
+                    return await GetMockWorklistData();
+                }
+
+
+
                 var cfind = DicomCFindRequest.CreateWorklistQuery();
 
                 // Query parameters - ค้นหาข้อมูลตาม config
@@ -213,6 +224,44 @@ namespace WorklistServiceApp.Services
             return worklistItems;
         }
 
+
+        private async Task<List<DicomDataset>> GetMockWorklistData()
+        {
+            var mockWorklistItems = new List<DicomDataset>();
+
+            // Mock Patient 1
+            var dataset1 = new DicomDataset();
+            dataset1.AddOrUpdate(DicomTag.PatientID, "57-24606");
+            dataset1.AddOrUpdate(DicomTag.PatientName, "SED ADTHAN");
+            dataset1.AddOrUpdate(DicomTag.PatientBirthDate, "19850315");
+            dataset1.AddOrUpdate(DicomTag.PatientSex, "M");
+            dataset1.AddOrUpdate(DicomTag.AccessionNumber, "11391995");
+            dataset1.AddOrUpdate(DicomTag.StudyDate, "");
+            dataset1.AddOrUpdate(DicomTag.StudyInstanceUID, "1.2.410.2000010.66.101.11391995.48781395");
+            dataset1.AddOrUpdate(DicomTag.SpecificCharacterSet, "");
+
+            // Scheduled Procedure Step
+            var sps1 = new DicomDataset();
+            sps1.AddOrUpdate(DicomTag.ScheduledProcedureStepStartDate, "20250623");
+            sps1.AddOrUpdate(DicomTag.ScheduledProcedureStepStartTime, "090000");
+            sps1.AddOrUpdate(DicomTag.ScheduledStationAETitle, "ECG");
+            sps1.AddOrUpdate(DicomTag.ScheduledProcedureStepDescription, "EKG (Electro Cardiography)");
+            sps1.AddOrUpdate(DicomTag.Modality, "ECG");
+            dataset1.AddOrUpdate(new DicomSequence(DicomTag.ScheduledProcedureStepSequence, sps1));
+
+            mockWorklistItems.Add(dataset1);
+
+
+            _logger.LogInformation("🎭 Generated {Count} mock worklist items", mockWorklistItems.Count);
+
+            // จำลองการรอเวลา (เหมือนการ query จริง)
+            await Task.Delay(1000);
+
+            return mockWorklistItems;
+        }
+
+
+
         private string GetDateRange()
         {
             var today = DateTime.Now;
@@ -240,7 +289,7 @@ namespace WorklistServiceApp.Services
             {
                 var characterSet = dataset.GetSingleValueOrDefault(DicomTag.SpecificCharacterSet, "");
                 var patientNameElement = dataset.GetDicomItem<DicomElement>(DicomTag.PatientName);
-                if (patientNameElement == null) return "ไม่มีข้อมูลชื่อผู้ป่วย";
+                if (patientNameElement == null) return "";
 
                 byte[] rawBytes = patientNameElement.Buffer.Data;
 
