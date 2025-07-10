@@ -14,7 +14,8 @@ x64/
 x86/
 build/
 bld/
-
+# Log files
+*.log
 # .NET
 *.dll
 *.exe
