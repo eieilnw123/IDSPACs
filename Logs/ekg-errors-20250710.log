@@ -1,0 +1,28 @@
+[2025-07-10 23:53:47.207 ERR] [WorklistServiceApp.Services.DicomSendService] ❌ PACS connection test error
+System.AggregateException: One or more errors occurred. (A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.)
+ ---> System.Net.Sockets.SocketException (10060): A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Threading.Tasks.ValueTask.ValueTaskSourceAsTask.<>c.<.cctor>b__4_0(Object state)
+--- End of stack trace from previous location ---
+   at System.Net.Sockets.TcpClient.CompleteConnectAsync(Task task)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait(TimeSpan timeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait(TimeSpan timeout)
+   at FellowOakDicom.Network.DesktopNetworkStream..ctor(NetworkStreamCreationOptions options)
+   at FellowOakDicom.Network.DesktopNetworkManager.CreateNetworkStreamImpl(NetworkStreamCreationOptions options)
+   at FellowOakDicom.Network.NetworkManager.FellowOakDicom.Network.INetworkManager.CreateNetworkStream(NetworkStreamCreationOptions options)
+   at FellowOakDicom.Network.Client.Advanced.Connection.DefaultAdvancedDicomClientConnectionFactory.<>c__DisplayClass5_0.<OpenConnectionAsync>b__0()
+   at System.Threading.Tasks.Task`1.InnerInvoke()
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at FellowOakDicom.Network.Client.Advanced.Connection.DefaultAdvancedDicomClientConnectionFactory.OpenConnectionAsync(AdvancedDicomClientConnectionRequest request, CancellationToken cancellationToken)
+   at FellowOakDicom.Network.Client.DicomClient.SendAsync(CancellationToken cancellationToken, DicomClientCancellationMode cancellationMode)
+   at FellowOakDicom.Network.Client.DicomClient.SendAsync(CancellationToken cancellationToken, DicomClientCancellationMode cancellationMode)
+   at WorklistServiceApp.Services.DicomSendService.TestPacsConnection() in D:\Project\idspacsgateway\Service\DicomSendService .cs:line 386
+[2025-07-10 23:53:47.242 ERR] [idspacsgateway.Services.LoggingService] [DicomSend] ❌ PACS connection test error: One or more errors occurred. (A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.)

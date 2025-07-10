@@ -7,7 +7,7 @@
         /// <summary>
         /// PACS Server IP Address
         /// </summary>
-        public string PacsServerHost { get; set; } = "172.16.10.240";
+        public string PacsServerHost { get; set; } = "172.16.10.202";
 
         /// <summary>
         /// PACS Server Port
@@ -17,12 +17,12 @@
         /// <summary>
         /// PACS Server AE Title
         /// </summary>
-        public string PacsServerAE { get; set; } = "PACS";
+        public string PacsServerAE { get; set; } = "NETGATE1";
 
         /// <summary>
         /// Our Client AE Title for sending
         /// </summary>
-        public string CallingAE { get; set; } = "EKG_SENDER";
+        public string CallingAE { get; set; } = "Ekg_er";
 
         /// <summary>
         /// Maximum number of concurrent send operations

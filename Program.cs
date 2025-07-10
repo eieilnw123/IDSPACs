@@ -65,6 +65,7 @@ builder.Services.AddSingleton<WorklistSyncService>();
 builder.Services.AddSingleton<PdfMonitoringService>();
 builder.Services.AddSingleton<PdfProcessingService>();
 builder.Services.AddSingleton<DicomCreationService>();
+builder.Services.AddSingleton<DicomSendService>(); // เพิ่มบรรทัดนี้
 
 // ✅ Dashboard services (new)
 builder.Services.AddSingleton<LoggingService>();
@@ -78,6 +79,10 @@ builder.Services.AddHostedService<PdfProcessingService>(provider =>
     provider.GetRequiredService<PdfProcessingService>());
 builder.Services.AddHostedService<DicomCreationService>(provider =>
     provider.GetRequiredService<DicomCreationService>());
+builder.Services.AddHostedService<DicomSendService>(provider =>
+    provider.GetRequiredService<DicomSendService>());
+
+
 
 // ✅ Logging
 builder.Logging.ClearProviders();
@@ -247,6 +252,8 @@ static void WireUpServiceEvents(IServiceProvider services, Microsoft.Extensions.
             }
         };
 
+   
+
         // 🖼️ PDF Processing Completed → 🏥 Queue for DICOM Creation + Log
         pdfProcessingService.PdfProcessingCompleted += async (sender, e) =>
         {
@@ -255,6 +262,8 @@ static void WireUpServiceEvents(IServiceProvider services, Microsoft.Extensions.
                 await loggingService.SendLogToClients("info",
                     $"🖼️ PDF processed: {e.WorklistItem.PatientID} → JPEG created", "PdfProcessing");
                 dicomCreationService.QueueJpegForDicomCreation(e.WorklistItem, e.JpegFilePath);
+
+
             }
             else
             {
@@ -263,6 +272,7 @@ static void WireUpServiceEvents(IServiceProvider services, Microsoft.Extensions.
             }
         };
 
+        var dicomSendService = services.GetRequiredService<DicomSendService>(); 
         // 🏥 DICOM Creation Completed → Log
         dicomCreationService.DicomCreationCompleted += async (sender, e) =>
         {
@@ -270,6 +280,8 @@ static void WireUpServiceEvents(IServiceProvider services, Microsoft.Extensions.
             {
                 await loggingService.SendLogToClients("info",
                     $"🏥 DICOM created: {e.WorklistItem.PatientID} → {Path.GetFileName(e.DicomFilePath)}", "DicomCreation");
+
+                dicomSendService.QueueDicomForSend(e.WorklistItem, e.DicomFilePath);
             }
             else
             {
@@ -277,6 +289,23 @@ static void WireUpServiceEvents(IServiceProvider services, Microsoft.Extensions.
                     $"❌ DICOM creation failed: {e.WorklistItem.PatientID} - {e.ErrorMessage}", "DicomCreation");
             }
         };
+
+        // 📤 DICOM Send Completed → Log
+        dicomSendService.DicomSendCompleted += async (sender, e) =>
+        {
+            if (e.Success)
+            {
+                await loggingService.SendLogToClients("info",
+                    $"📤 DICOM sent to PACS: {e.WorklistItem.PatientID}", "DicomSend");
+            }
+            else
+            {
+                await loggingService.SendLogToClients("error",
+                    $"❌ DICOM send failed: {e.WorklistItem.PatientID} - {e.ErrorMessage}", "DicomSend");
+            }
+        };
+
+
 
         logger.LogInformation("✅ Service events wired up successfully");
     }

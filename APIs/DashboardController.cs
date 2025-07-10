@@ -19,7 +19,7 @@ namespace idspacsgateway.APIs
         private readonly WorklistSyncService _worklistSyncService;
         private readonly LoggingService _loggingService;
         private readonly ILogger<DashboardController> _logger;
-
+        private readonly DicomSendService _dicomSendService;
         public DashboardController(
             DatabaseService databaseService,
             PdfMonitoringService pdfMonitoringService,
@@ -27,6 +27,7 @@ namespace idspacsgateway.APIs
             DicomCreationService dicomCreationService,
             WorklistSyncService worklistSyncService,
             LoggingService loggingService,
+            DicomSendService dicomSendService,
             ILogger<DashboardController> logger)
         {
             _databaseService = databaseService;
@@ -36,6 +37,7 @@ namespace idspacsgateway.APIs
             _worklistSyncService = worklistSyncService;
             _loggingService = loggingService;
             _logger = logger;
+            _dicomSendService = dicomSendService;
         }
 
         [HttpGet("status")]
@@ -48,7 +50,7 @@ namespace idspacsgateway.APIs
                 var pdfStatus = _pdfMonitoringService.GetMonitoringStatus();
                 var procStatus = _pdfProcessingService.GetProcessingStatus();
                 var dicomStatus = _dicomCreationService.GetCreationStatus();
-
+                var sendStatus = _dicomSendService.GetSendStatus();
                 var response = new DashboardStatusResponse
                 {
                     // Worklist
@@ -78,9 +80,15 @@ namespace idspacsgateway.APIs
                     DicomFileCount = dicomStatus.DicomFileCount,
                     DicomMaxConcurrent = dicomStatus.MaxConcurrentCreation,
 
+                    // ✅ DICOM Send (ใหม่)
+                    DicomSendQueueSize = sendStatus.QueueSize,         // งานที่รอส่ง
+                    DicomSendActiveCount = sendStatus.ActiveSendCount, // งานที่กำลังส่ง
+                    PacsSentCount = sendStatus.SentArchiveCount,       // ไฟล์ที่ส่งสำเร็จ
+                    PacsFailedCount = sendStatus.FailedArchiveCount,   // ไฟล์ที่ส่งล้มเหลว
+
                     // Performance
                     SuccessRate = CalculateSuccessRate(statusSummary),
-                    SystemHealth = DetermineSystemHealth(pdfStatus, procStatus, dicomStatus),
+                    SystemHealth = DetermineSystemHealth(pdfStatus, procStatus, dicomStatus, sendStatus),
                     LastUpdated = DateTime.Now
                 };
 
@@ -250,10 +258,10 @@ namespace idspacsgateway.APIs
                 HasJpeg = item.HasJpeg,
                 HasDicom = item.HasDicom,
                 ScheduledTime = item.FormattedScheduledDateTime,
-                UpdatedTime = item.UpdatedAt.ToString("HH:mm:ss"),
+                UpdatedTime = item.UpdatedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm:ss"),
                 ErrorMessage = item.ErrorMessage
             };
-        }
+        }   
 
         private double CalculateSuccessRate(Dictionary<string, int> statusSummary)
         {
@@ -269,14 +277,16 @@ namespace idspacsgateway.APIs
         private string DetermineSystemHealth(
             WorklistServiceApp.Models.PdfMonitoringStatus pdfStatus,
             WorklistServiceApp.Models.PdfProcessingStatus procStatus,
-            WorklistServiceApp.Models.DicomCreationStatus dicomStatus)
+            WorklistServiceApp.Models.DicomCreationStatus dicomStatus,
+            WorklistServiceApp.Models.DicomSendStatus sendStatus)
         {
             if (!pdfStatus.IsMonitoring || !pdfStatus.FolderExists)
                 return "critical";
 
             if (procStatus.QueueSize > 20 || dicomStatus.QueueSize > 10)
                 return "warning";
-
+            if (sendStatus.QueueSize > 15 || sendStatus.FailedArchiveCount > 50)
+                return "warning";
             return "healthy";
         }
     }

@@ -9,6 +9,7 @@ using System.Drawing.Imaging;
 using WorklistServiceApp.Configuration;
 using WorklistServiceApp.Data;
 using WorklistServiceApp.Models;
+using System.Globalization;
 
 namespace WorklistServiceApp.Services
 {
@@ -293,6 +294,54 @@ namespace WorklistServiceApp.Services
                 return null;
             }
         }
+        /// <summary>
+        /// คำนวณอายุจาก PatientBirthDate และแปลงเป็น DICOM Age format
+        /// </summary>
+        /// <param name="patientBirthDate">วันเกิดในรูปแบบ YYYYMMDD (เช่น "19850315")</param>
+        /// <returns>อายุในรูปแบบ DICOM (เช่น "040Y") หรือ "" ถ้าคำนวณไม่ได้</returns>
+        private string CalculatePatientAgeFromBirthDate(string? patientBirthDate)
+        {
+            try
+            {
+                // ตรวจสอบ input
+                if (string.IsNullOrEmpty(patientBirthDate) || patientBirthDate.Length != 8)
+                {
+                    return ""; // ไม่มีข้อมูลวันเกิดหรือ format ผิด
+                }
+
+                // Parse YYYYMMDD format เป็น DateTime
+                if (!DateTime.TryParseExact(patientBirthDate, "yyyyMMdd",
+                    null, DateTimeStyles.None, out var birthDate))
+                {
+                    return ""; // Parse ไม่ได้
+                }
+
+                // คำนวณอายุ
+                var today = DateTime.Today;
+                var age = today.Year - birthDate.Year;
+
+                // ปรับอายุถ้ายังไม่ถึงวันเกิดในปีนี้
+                if (birthDate.Date > today.AddYears(-age))
+                {
+                    age--;
+                }
+
+                // ตรวจสอบความสมเหตุสมผลของอายุ
+                if (age < 0 || age > 150)
+                {
+                    return ""; // อายุไม่สมเหตุสมผล
+                }
+
+                // แปลงเป็น DICOM Age format (nnnY)
+                return $"{age:D3}Y";
+            }
+            catch (Exception ex)
+            {
+                // Log error (ถ้าต้องการ)
+                _logger?.LogWarning(ex, "⚠️ Error calculating patient age from birth date: {BirthDate}", patientBirthDate);
+                return ""; // Error ใดๆ ให้คืนค่าว่าง
+            }
+        }
 
         private DicomDataset CreateDicomDataset(WorklistItem worklistItem)
         {
@@ -301,13 +350,14 @@ namespace WorklistServiceApp.Services
             // Patient Module
             dataset.AddOrUpdate(DicomTag.PatientName, worklistItem.PatientName);
             dataset.AddOrUpdate(DicomTag.PatientID, worklistItem.PatientID);
-            dataset.AddOrUpdate(DicomTag.PatientBirthDate, "");
-            dataset.AddOrUpdate(DicomTag.PatientSex, "");
-
+            dataset.AddOrUpdate(DicomTag.PatientBirthDate, worklistItem.PatientBirthDate);
+            dataset.AddOrUpdate(DicomTag.PatientSex, worklistItem.PatientSex);
+            var patientAge = CalculatePatientAgeFromBirthDate(worklistItem.PatientBirthDate);
+            dataset.AddOrUpdate(DicomTag.PatientAge, patientAge);
             // Study Module
             dataset.AddOrUpdate(DicomTag.StudyInstanceUID,
             worklistItem.StudyInstanceUID ?? DicomUIDGenerator.GenerateDerivedFromUUID().UID);
-            dataset.AddOrUpdate(DicomTag.StudyDate, worklistItem.StudyDate);
+            dataset.AddOrUpdate(DicomTag.StudyDate, DateTime.Now.ToString("yyyyMMdd"));
             dataset.AddOrUpdate(DicomTag.StudyTime, DateTime.Now.ToString("HHmmss"));
             dataset.AddOrUpdate(DicomTag.ReferringPhysicianName, _config.ReferringPhysicianName);
             dataset.AddOrUpdate(DicomTag.StudyID, $"{_config.StudyIDPrefix}{worklistItem.AccessionNumber}");

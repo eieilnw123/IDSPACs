@@ -96,24 +96,30 @@ class HybridDashboard {
     }
 
     addLogToUI(logEntry) {
-        const logsContainer = document.getElementById('logsContainer');
-        if (!logsContainer) return;
+        // ✅ หา containers ทั้งหมดที่ใช้แสดง logs
+        const logsContainers = [
+            document.getElementById('logsContainer'),           // Overview tab
+            document.getElementById('log-search-result')       // Logs tab (ถ้ามี)
+        ].filter(container => container !== null); // กรองเอาแค่ที่มีจริง
 
-        const logElement = document.createElement('div');
-        logElement.className = `log-entry log-${logEntry.level.toLowerCase()}`;
-        logElement.innerHTML = `[${logEntry.timestamp}] [${logEntry.source}] ${this.escapeHtml(logEntry.message)}`;
+        // ✅ ส่ง logs ไปทุก containers
+        logsContainers.forEach(logsContainer => {
+            const logElement = document.createElement('div');
+            logElement.className = `log-entry log-${logEntry.level.toLowerCase()}`;
+            logElement.innerHTML = `[${logEntry.timestamp}] [${logEntry.source}] ${this.escapeHtml(logEntry.message)}`;
 
-        logsContainer.appendChild(logElement);
+            logsContainer.appendChild(logElement);
 
-        // Remove old logs
-        while (logsContainer.children.length > this.maxLogs) {
-            logsContainer.removeChild(logsContainer.firstChild);
-        }
+            // Remove old logs (เก็บไว้แค่ 200 บรรทัด)
+            while (logsContainer.children.length > this.maxLogs) {
+                logsContainer.removeChild(logsContainer.firstChild);
+            }
 
-        // Auto scroll
-        if (this.autoScroll) {
-            logsContainer.scrollTop = logsContainer.scrollHeight;
-        }
+            // Auto scroll (เฉพาะ Overview tab)
+            if (logsContainer.id === 'logsContainer' && this.autoScroll) {
+                logsContainer.scrollTop = logsContainer.scrollHeight;
+            }
+        });
 
         // Apply current filter
         this.filterLogs();
@@ -140,6 +146,9 @@ class HybridDashboard {
             const data = await response.json();
             this.updateDashboard(data);
             this.updateLastRefresh();
+
+            
+            await this.loadWorklistData();
         } catch (error) {
             console.error('❌ Dashboard data loading failed:', error);
             this.showError('Failed to load dashboard data');
@@ -191,6 +200,13 @@ class HybridDashboard {
             // DICOM creation
             this.updateElement('dicomQueue', data.dicomQueueSize);
             this.updateElement('dicomCount', data.dicomFileCount);
+
+            // DICOM send
+            this.updateElement('sendQueue', data.dicomSendQueueSize);
+            this.updateElement('activeSending', data.dicomSendActiveCount);
+            this.updateElement('sentToPacs', data.pacsSentCount);
+            this.updateElement('sendFailed', data.pacsFailedCount);
+
 
             // Performance
             this.updateElement('successRate', Math.round(data.successRate) + '%');

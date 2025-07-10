@@ -127,7 +127,7 @@
         /// <summary>
         /// Study Description
         /// </summary>
-        public string StudyDescription { get; set; } = "EKG Study";
+        public string StudyDescription { get; set; } = "EKG (Electro Cardiography)";
 
         /// <summary>
         /// Referring Physician Name

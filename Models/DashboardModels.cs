@@ -30,6 +30,12 @@ namespace idspacsgateway.Models
         public int DicomFileCount { get; set; }
         public int DicomMaxConcurrent { get; set; }
 
+        //  DICOM Send 
+        public int DicomSendQueueSize { get; set; }    // คิวส่ง DICOM
+        public int DicomSendActiveCount { get; set; }  // กำลังส่ง
+        public int PacsSentCount { get; set; }         // ส่งสำเร็จ
+        public int PacsFailedCount { get; set; }       // ส่งล้มเหลว
+
         // Performance
         public double SuccessRate { get; set; }
         public string SystemHealth { get; set; } = "healthy";

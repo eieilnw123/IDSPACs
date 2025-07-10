@@ -1,0 +1,180 @@
+[2025-07-10 23:15:17.277 INF] [Program] 🔧 Initializing application...
+[2025-07-10 23:15:17.614 INF] [WorklistServiceApp.Data.DatabaseService] 🗄️ Database initialized successfully
+[2025-07-10 23:15:17.631 INF] [Program] ✅ Database connection: OK - Total items: 1
+[2025-07-10 23:15:17.643 INF] [Program] 🔗 Wiring up service events...
+[2025-07-10 23:15:17.647 INF] [Program] ✅ Service events wired up successfully
+[2025-07-10 23:15:17.647 INF] [Program] ✅ Application initialized successfully
+[2025-07-10 23:15:18.057 INF] [WorklistServiceApp.Services.WorklistSyncService] ⚙️ DICOM system initialized
+[2025-07-10 23:15:18.059 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-10 23:15:18.060 INF] [idspacsgateway.Services.LoggingService] [WorklistSync] 🔄 Starting worklist synchronization...
+[2025-07-10 23:15:18.062 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-10 23:15:18.205 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-10 23:15:18.209 INF] [WorklistServiceApp.Services.PdfMonitoringService] ⚙️ PDF File Watcher configured successfully
+[2025-07-10 23:15:18.210 INF] [WorklistServiceApp.Services.PdfMonitoringService] 📊 Configuration: Filter=*.pdf, Subdirs=false, AutoProcess=true
+[2025-07-10 23:15:18.211 INF] [WorklistServiceApp.Services.PdfMonitoringService] 👁️ PDF Monitoring Service started
+[2025-07-10 23:15:18.211 INF] [WorklistServiceApp.Services.PdfMonitoringService] 📁 Watching folder: C:\Schiller\SchillerServers\_Data\Export\PDF
+[2025-07-10 23:15:18.213 INF] [WorklistServiceApp.Services.PdfMonitoringService] 📁 No existing PDF files found in watch folder
+[2025-07-10 23:15:18.215 INF] [WorklistServiceApp.Services.PdfProcessingService] 🗑️ Cleaned up 1 old temporary JPEG files
+[2025-07-10 23:15:18.216 INF] [WorklistServiceApp.Services.PdfProcessingService] ⚙️ PDF Processing Service initialized
+[2025-07-10 23:15:18.216 INF] [WorklistServiceApp.Services.PdfProcessingService] 📋 Using PDFiumSharp for PDF processing
+[2025-07-10 23:15:18.217 INF] [WorklistServiceApp.Services.PdfProcessingService] 🖼️ PDF Processing Service started
+[2025-07-10 23:15:18.217 INF] [WorklistServiceApp.Services.PdfProcessingService] 📁 JPEG output folder: C:\EKG_Temp\JPEG
+[2025-07-10 23:15:18.218 INF] [WorklistServiceApp.Services.PdfProcessingService] ⚙️ Max concurrent processing: 2
+[2025-07-10 23:15:18.218 INF] [WorklistServiceApp.Services.PdfProcessingService] 🎨 JPEG Quality: 95%, DPI: 300
+[2025-07-10 23:15:18.220 INF] [WorklistServiceApp.Services.PdfProcessingService] 📋 No pending PDF items found
+[2025-07-10 23:15:18.222 INF] [WorklistServiceApp.Services.DicomCreationService] ⚙️ DICOM Creation Service initialized
+[2025-07-10 23:15:18.222 INF] [WorklistServiceApp.Services.DicomCreationService] 📦 Transfer Syntax: 1.2.840.10008.1.2
+[2025-07-10 23:15:18.223 INF] [WorklistServiceApp.Services.DicomCreationService] 🏷️ SOP Class: 1.2.840.10008.5.1.4.1.1.7
+[2025-07-10 23:15:18.224 INF] [WorklistServiceApp.Services.DicomCreationService] 🏥 DICOM Creation Service started
+[2025-07-10 23:15:18.224 INF] [WorklistServiceApp.Services.DicomCreationService] 📁 DICOM output folder: C:\EKG_Output\DICOM
+[2025-07-10 23:15:18.224 INF] [WorklistServiceApp.Services.DicomCreationService] ⚙️ Max concurrent creation: 3
+[2025-07-10 23:15:18.225 INF] [WorklistServiceApp.Services.DicomCreationService] 🏥 Institution: โรงพยาบาล
+[2025-07-10 23:15:18.226 INF] [WorklistServiceApp.Services.DicomCreationService] 📁 No JPEG files found in temp folder
+[2025-07-10 23:15:19.209 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-10 23:15:19.210 INF] [idspacsgateway.Services.LoggingService] [WorklistSync] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-10 23:15:19.224 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: Test (999) - 11395391
+[2025-07-10 23:15:19.225 INF] [idspacsgateway.Services.LoggingService] [WorklistSync] 🔄 Updated: Test (999)
+[2025-07-10 23:15:19.226 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-10 23:15:19.234 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 WorklistSyncService started - syncing every 1 minutes
+[2025-07-10 23:15:19.235 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-10 23:15:19.235 INF] [idspacsgateway.Services.LoggingService] [WorklistSync] 🔄 Starting worklist synchronization...
+[2025-07-10 23:15:19.236 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-10 23:15:19.236 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-10 23:15:19.767 INF] [idspacsgateway.Hubs.LogHub] Log viewer connected: HqKUcdMfGjDuoovE9I15qw
+[2025-07-10 23:15:20.244 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-10 23:15:20.246 INF] [idspacsgateway.Services.LoggingService] [WorklistSync] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-10 23:15:20.254 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: Test (999) - 11395391
+[2025-07-10 23:15:20.255 INF] [idspacsgateway.Services.LoggingService] [WorklistSync] 🔄 Updated: Test (999)
+[2025-07-10 23:15:20.256 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-10 23:15:37.400 INF] [idspacsgateway.Hubs.LogHub] Log viewer disconnected: HqKUcdMfGjDuoovE9I15qw
+[2025-07-10 23:15:58.956 INF] [Program] 🔧 Initializing application...
+[2025-07-10 23:15:59.087 INF] [WorklistServiceApp.Data.DatabaseService] 🗄️ Database initialized successfully
+[2025-07-10 23:15:59.103 INF] [Program] ✅ Database connection: OK - Total items: 1
+[2025-07-10 23:15:59.114 INF] [Program] 🔗 Wiring up service events...
+[2025-07-10 23:15:59.117 INF] [Program] ✅ Service events wired up successfully
+[2025-07-10 23:15:59.117 INF] [Program] ✅ Application initialized successfully
+[2025-07-10 23:15:59.246 INF] [WorklistServiceApp.Services.WorklistSyncService] ⚙️ DICOM system initialized
+[2025-07-10 23:15:59.248 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-10 23:15:59.250 INF] [idspacsgateway.Services.LoggingService] [WorklistSync] 🔄 Starting worklist synchronization...
+[2025-07-10 23:15:59.251 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-10 23:15:59.395 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-10 23:15:59.400 INF] [WorklistServiceApp.Services.PdfMonitoringService] ⚙️ PDF File Watcher configured successfully
+[2025-07-10 23:15:59.401 INF] [WorklistServiceApp.Services.PdfMonitoringService] 📊 Configuration: Filter=*.pdf, Subdirs=false, AutoProcess=true
+[2025-07-10 23:15:59.401 INF] [WorklistServiceApp.Services.PdfMonitoringService] 👁️ PDF Monitoring Service started
+[2025-07-10 23:15:59.402 INF] [WorklistServiceApp.Services.PdfMonitoringService] 📁 Watching folder: C:\Schiller\SchillerServers\_Data\Export\PDF
+[2025-07-10 23:15:59.403 INF] [WorklistServiceApp.Services.PdfMonitoringService] 📁 No existing PDF files found in watch folder
+[2025-07-10 23:15:59.405 INF] [WorklistServiceApp.Services.PdfProcessingService] ⚙️ PDF Processing Service initialized
+[2025-07-10 23:15:59.405 INF] [WorklistServiceApp.Services.PdfProcessingService] 📋 Using PDFiumSharp for PDF processing
+[2025-07-10 23:15:59.406 INF] [WorklistServiceApp.Services.PdfProcessingService] 🖼️ PDF Processing Service started
+[2025-07-10 23:15:59.406 INF] [WorklistServiceApp.Services.PdfProcessingService] 📁 JPEG output folder: C:\EKG_Temp\JPEG
+[2025-07-10 23:15:59.406 INF] [WorklistServiceApp.Services.PdfProcessingService] ⚙️ Max concurrent processing: 2
+[2025-07-10 23:15:59.407 INF] [WorklistServiceApp.Services.PdfProcessingService] 🎨 JPEG Quality: 95%, DPI: 300
+[2025-07-10 23:15:59.409 INF] [WorklistServiceApp.Services.PdfProcessingService] 📋 No pending PDF items found
+[2025-07-10 23:15:59.411 INF] [WorklistServiceApp.Services.DicomCreationService] ⚙️ DICOM Creation Service initialized
+[2025-07-10 23:15:59.412 INF] [WorklistServiceApp.Services.DicomCreationService] 📦 Transfer Syntax: 1.2.840.10008.1.2
+[2025-07-10 23:15:59.412 INF] [WorklistServiceApp.Services.DicomCreationService] 🏷️ SOP Class: 1.2.840.10008.5.1.4.1.1.7
+[2025-07-10 23:15:59.413 INF] [WorklistServiceApp.Services.DicomCreationService] 🏥 DICOM Creation Service started
+[2025-07-10 23:15:59.413 INF] [WorklistServiceApp.Services.DicomCreationService] 📁 DICOM output folder: C:\EKG_Output\DICOM
+[2025-07-10 23:15:59.414 INF] [WorklistServiceApp.Services.DicomCreationService] ⚙️ Max concurrent creation: 3
+[2025-07-10 23:15:59.414 INF] [WorklistServiceApp.Services.DicomCreationService] 🏥 Institution: โรงพยาบาล
+[2025-07-10 23:15:59.416 INF] [WorklistServiceApp.Services.DicomCreationService] 📁 No JPEG files found in temp folder
+[2025-07-10 23:16:00.398 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-10 23:16:00.400 INF] [idspacsgateway.Services.LoggingService] [WorklistSync] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-10 23:16:00.415 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: Test (999) - 11395391
+[2025-07-10 23:16:00.416 INF] [idspacsgateway.Services.LoggingService] [WorklistSync] 🔄 Updated: Test (999)
+[2025-07-10 23:16:00.417 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-10 23:16:00.426 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 WorklistSyncService started - syncing every 1 minutes
+[2025-07-10 23:16:00.426 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-10 23:16:00.427 INF] [idspacsgateway.Services.LoggingService] [WorklistSync] 🔄 Starting worklist synchronization...
+[2025-07-10 23:16:00.428 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-10 23:16:00.429 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-10 23:16:00.493 INF] [idspacsgateway.Hubs.LogHub] Log viewer connected: AB8Y24HNUcgSOF6wmSXBlQ
+[2025-07-10 23:16:01.445 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-10 23:16:01.448 INF] [idspacsgateway.Services.LoggingService] [WorklistSync] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-10 23:16:01.457 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: Test (999) - 11395391
+[2025-07-10 23:16:01.458 INF] [idspacsgateway.Services.LoggingService] [WorklistSync] 🔄 Updated: Test (999)
+[2025-07-10 23:16:01.459 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-10 23:16:11.587 INF] [idspacsgateway.Hubs.LogHub] Log viewer disconnected: AB8Y24HNUcgSOF6wmSXBlQ
+[2025-07-10 23:53:25.254 INF] [Program] 🔧 Initializing application...
+[2025-07-10 23:53:25.574 INF] [WorklistServiceApp.Data.DatabaseService] 🗄️ Database initialized successfully
+[2025-07-10 23:53:25.589 INF] [Program] ✅ Database connection: OK - Total items: 1
+[2025-07-10 23:53:25.599 INF] [Program] 🔗 Wiring up service events...
+[2025-07-10 23:53:25.603 INF] [Program] ✅ Service events wired up successfully
+[2025-07-10 23:53:25.604 INF] [Program] ✅ Application initialized successfully
+[2025-07-10 23:53:25.883 INF] [WorklistServiceApp.Services.WorklistSyncService] ⚙️ DICOM system initialized
+[2025-07-10 23:53:25.885 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-10 23:53:25.886 INF] [idspacsgateway.Services.LoggingService] [WorklistSync] 🔄 Starting worklist synchronization...
+[2025-07-10 23:53:25.888 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-10 23:53:26.013 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-10 23:53:26.017 INF] [WorklistServiceApp.Services.PdfMonitoringService] ⚙️ PDF File Watcher configured successfully
+[2025-07-10 23:53:26.018 INF] [WorklistServiceApp.Services.PdfMonitoringService] 📊 Configuration: Filter=*.pdf, Subdirs=false, AutoProcess=true
+[2025-07-10 23:53:26.018 INF] [WorklistServiceApp.Services.PdfMonitoringService] 👁️ PDF Monitoring Service started
+[2025-07-10 23:53:26.019 INF] [WorklistServiceApp.Services.PdfMonitoringService] 📁 Watching folder: C:\Schiller\SchillerServers\_Data\Export\PDF
+[2025-07-10 23:53:26.020 INF] [WorklistServiceApp.Services.PdfMonitoringService] 📁 No existing PDF files found in watch folder
+[2025-07-10 23:53:26.021 INF] [WorklistServiceApp.Services.PdfProcessingService] ⚙️ PDF Processing Service initialized
+[2025-07-10 23:53:26.022 INF] [WorklistServiceApp.Services.PdfProcessingService] 📋 Using PDFiumSharp for PDF processing
+[2025-07-10 23:53:26.022 INF] [WorklistServiceApp.Services.PdfProcessingService] 🖼️ PDF Processing Service started
+[2025-07-10 23:53:26.023 INF] [WorklistServiceApp.Services.PdfProcessingService] 📁 JPEG output folder: C:\EKG_Temp\JPEG
+[2025-07-10 23:53:26.023 INF] [WorklistServiceApp.Services.PdfProcessingService] ⚙️ Max concurrent processing: 2
+[2025-07-10 23:53:26.024 INF] [WorklistServiceApp.Services.PdfProcessingService] 🎨 JPEG Quality: 95%, DPI: 300
+[2025-07-10 23:53:26.025 INF] [WorklistServiceApp.Services.PdfProcessingService] 📋 No pending PDF items found
+[2025-07-10 23:53:26.027 INF] [WorklistServiceApp.Services.DicomCreationService] ⚙️ DICOM Creation Service initialized
+[2025-07-10 23:53:26.027 INF] [WorklistServiceApp.Services.DicomCreationService] 📦 Transfer Syntax: 1.2.840.10008.1.2
+[2025-07-10 23:53:26.028 INF] [WorklistServiceApp.Services.DicomCreationService] 🏷️ SOP Class: 1.2.840.10008.5.1.4.1.1.7
+[2025-07-10 23:53:26.029 INF] [WorklistServiceApp.Services.DicomCreationService] 🏥 DICOM Creation Service started
+[2025-07-10 23:53:26.029 INF] [WorklistServiceApp.Services.DicomCreationService] 📁 DICOM output folder: C:\EKG_Output\DICOM
+[2025-07-10 23:53:26.029 INF] [WorklistServiceApp.Services.DicomCreationService] ⚙️ Max concurrent creation: 3
+[2025-07-10 23:53:26.030 INF] [WorklistServiceApp.Services.DicomCreationService] 🏥 Institution: โรงพยาบาล
+[2025-07-10 23:53:26.031 INF] [WorklistServiceApp.Services.DicomCreationService] 📁 No JPEG files found in temp folder
+[2025-07-10 23:53:26.035 INF] [WorklistServiceApp.Services.DicomSendService] 🔌 Testing PACS connection: 172.16.10.202:104
+[2025-07-10 23:53:26.697 INF] [idspacsgateway.Hubs.LogHub] Log viewer connected: 4XWw-HPNVuy1f4b6oNl3Bg
+[2025-07-10 23:53:27.031 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-10 23:53:27.034 INF] [idspacsgateway.Services.LoggingService] [WorklistSync] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-10 23:53:27.047 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: Test (999) - 11395391
+[2025-07-10 23:53:27.048 INF] [idspacsgateway.Services.LoggingService] [WorklistSync] 🔄 Updated: Test (999)
+[2025-07-10 23:53:27.049 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-10 23:53:27.057 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 WorklistSyncService started - syncing every 1 minutes
+[2025-07-10 23:53:27.058 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-10 23:53:27.059 INF] [idspacsgateway.Services.LoggingService] [WorklistSync] 🔄 Starting worklist synchronization...
+[2025-07-10 23:53:27.060 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-10 23:53:27.060 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-10 23:53:28.071 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-10 23:53:28.073 INF] [idspacsgateway.Services.LoggingService] [WorklistSync] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-10 23:53:28.082 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: Test (999) - 11395391
+[2025-07-10 23:53:28.083 INF] [idspacsgateway.Services.LoggingService] [WorklistSync] 🔄 Updated: Test (999)
+[2025-07-10 23:53:28.084 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-10 23:53:47.207 ERR] [WorklistServiceApp.Services.DicomSendService] ❌ PACS connection test error
+System.AggregateException: One or more errors occurred. (A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.)
+ ---> System.Net.Sockets.SocketException (10060): A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Threading.Tasks.ValueTask.ValueTaskSourceAsTask.<>c.<.cctor>b__4_0(Object state)
+--- End of stack trace from previous location ---
+   at System.Net.Sockets.TcpClient.CompleteConnectAsync(Task task)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait(TimeSpan timeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait(TimeSpan timeout)
+   at FellowOakDicom.Network.DesktopNetworkStream..ctor(NetworkStreamCreationOptions options)
+   at FellowOakDicom.Network.DesktopNetworkManager.CreateNetworkStreamImpl(NetworkStreamCreationOptions options)
+   at FellowOakDicom.Network.NetworkManager.FellowOakDicom.Network.INetworkManager.CreateNetworkStream(NetworkStreamCreationOptions options)
+   at FellowOakDicom.Network.Client.Advanced.Connection.DefaultAdvancedDicomClientConnectionFactory.<>c__DisplayClass5_0.<OpenConnectionAsync>b__0()
+   at System.Threading.Tasks.Task`1.InnerInvoke()
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at FellowOakDicom.Network.Client.Advanced.Connection.DefaultAdvancedDicomClientConnectionFactory.OpenConnectionAsync(AdvancedDicomClientConnectionRequest request, CancellationToken cancellationToken)
+   at FellowOakDicom.Network.Client.DicomClient.SendAsync(CancellationToken cancellationToken, DicomClientCancellationMode cancellationMode)
+   at FellowOakDicom.Network.Client.DicomClient.SendAsync(CancellationToken cancellationToken, DicomClientCancellationMode cancellationMode)
+   at WorklistServiceApp.Services.DicomSendService.TestPacsConnection() in D:\Project\idspacsgateway\Service\DicomSendService .cs:line 386
+[2025-07-10 23:53:47.242 ERR] [idspacsgateway.Services.LoggingService] [DicomSend] ❌ PACS connection test error: One or more errors occurred. (A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.)
+[2025-07-10 23:53:47.243 INF] [WorklistServiceApp.Services.DicomSendService] ⚙️ DICOM Send Service initialized
+[2025-07-10 23:53:47.243 INF] [idspacsgateway.Services.LoggingService] [DicomSend] ⚙️ DICOM Send Service initialized
+[2025-07-10 23:53:47.244 INF] [WorklistServiceApp.Services.DicomSendService] 📤 DICOM Send Service started
+[2025-07-10 23:53:47.244 INF] [WorklistServiceApp.Services.DicomSendService] 🏥 PACS Server: 172.16.10.202:104 (NETGATE1)
+[2025-07-10 23:53:47.245 INF] [WorklistServiceApp.Services.DicomSendService] ⚙️ Max concurrent sends: 2
+[2025-07-10 23:53:47.246 INF] [idspacsgateway.Services.LoggingService] [DicomSend] 📤 DICOM Send Service started - PACS: 172.16.10.202:104
+[2025-07-10 23:53:47.247 INF] [WorklistServiceApp.Services.DicomSendService] 📤 No pending DICOM items found

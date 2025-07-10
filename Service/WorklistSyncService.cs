@@ -10,7 +10,7 @@ using System.Text;
 using WorklistServiceApp.Configuration;
 using WorklistServiceApp.Data;
 using WorklistServiceApp.Models;
-
+using idspacsgateway.Services; 
 namespace WorklistServiceApp.Services
 {
     public class WorklistSyncService : BackgroundService
@@ -20,15 +20,17 @@ namespace WorklistServiceApp.Services
         private readonly DicomSyncConfiguration _config;
         private Timer? _syncTimer;
         private bool _isSyncing = false;
-
+        private readonly LoggingService _loggingService; 
         public WorklistSyncService(
             ILogger<WorklistSyncService> logger,
             DatabaseService databaseService,
-            IOptions<DicomSyncConfiguration> config)
+            IOptions<DicomSyncConfiguration> config,
+             LoggingService loggingService)
         {
             _logger = logger;
             _databaseService = databaseService;
             _config = config.Value;
+            _loggingService = loggingService;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -89,10 +91,11 @@ namespace WorklistServiceApp.Services
             try
             {
                 _logger.LogInformation("🔄 Starting worklist synchronization...");
+                await _loggingService.SendLogToClients("info", "🔄 Starting worklist synchronization...", "WorklistSync");
 
                 var worklistItems = await GetWorklistFromDicomServer();
                 _logger.LogInformation("📥 Retrieved {Count} worklist items from DICOM server", worklistItems.Count);
-
+                await _loggingService.SendLogToClients("info", $"📥 Retrieved {worklistItems.Count} worklist items from DICOM server", "WorklistSync");
                 var savedCount = 0;
                 var updatedCount = 0;
                 var skippedCount = 0;
@@ -109,11 +112,13 @@ namespace WorklistServiceApp.Services
                                 savedCount++;
                                 _logger.LogInformation("💾 New: {PatientName} ({PatientID}) - {AccessionNumber}",
                                     result.PatientName, result.PatientID, result.AccessionNumber);
+                                await _loggingService.SendLogToClients("info", $"💾 New: {result.PatientName} ({result.PatientID})", "WorklistSync");
                                 break;
                             case Models.DatabaseAction.Updated:
                                 updatedCount++;
                                 _logger.LogInformation("🔄 Updated: {PatientName} ({PatientID}) - {AccessionNumber}",
                                     result.PatientName, result.PatientID, result.AccessionNumber);
+                                await _loggingService.SendLogToClients("info", $"🔄 Updated: {result.PatientName} ({result.PatientID})", "WorklistSync");
                                 break;
                             case Models.DatabaseAction.Skipped:
                                 skippedCount++;
@@ -125,6 +130,7 @@ namespace WorklistServiceApp.Services
                         skippedCount++;
                         var accessionNumber = dataset.GetSingleValueOrDefault(DicomTag.AccessionNumber, "Unknown");
                         _logger.LogError(ex, "❌ Failed to process worklist item: {AccessionNumber}", accessionNumber);
+                        await _loggingService.SendLogToClients("error", $"❌ Failed to process: {accessionNumber}", "WorklistSync");
                     }
                 }
 
@@ -137,6 +143,7 @@ namespace WorklistServiceApp.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "❌ Error during worklist synchronization");
+                await _loggingService.SendLogToClients("error", $"❌ Sync error: {ex.Message}", "WorklistSync");
             }
             finally
             {
@@ -231,19 +238,19 @@ namespace WorklistServiceApp.Services
 
             // Mock Patient 1
             var dataset1 = new DicomDataset();
-            dataset1.AddOrUpdate(DicomTag.PatientID, "57-24606");
-            dataset1.AddOrUpdate(DicomTag.PatientName, "SED ADTHAN");
-            dataset1.AddOrUpdate(DicomTag.PatientBirthDate, "19850315");
+            dataset1.AddOrUpdate(DicomTag.PatientID, "999");
+            dataset1.AddOrUpdate(DicomTag.PatientName, "Test");
+            dataset1.AddOrUpdate(DicomTag.PatientBirthDate, "19710526");
             dataset1.AddOrUpdate(DicomTag.PatientSex, "M");
-            dataset1.AddOrUpdate(DicomTag.AccessionNumber, "11391995");
+            dataset1.AddOrUpdate(DicomTag.AccessionNumber, "11395391");
             dataset1.AddOrUpdate(DicomTag.StudyDate, "");
-            dataset1.AddOrUpdate(DicomTag.StudyInstanceUID, "1.2.410.2000010.66.101.11391995.48781395");
+            dataset1.AddOrUpdate(DicomTag.StudyInstanceUID, "1.2.410.2000010.66.101.11395391.48795680");
             dataset1.AddOrUpdate(DicomTag.SpecificCharacterSet, "");
 
             // Scheduled Procedure Step
             var sps1 = new DicomDataset();
-            sps1.AddOrUpdate(DicomTag.ScheduledProcedureStepStartDate, "20250623");
-            sps1.AddOrUpdate(DicomTag.ScheduledProcedureStepStartTime, "090000");
+            sps1.AddOrUpdate(DicomTag.ScheduledProcedureStepStartDate, "20250704");
+            sps1.AddOrUpdate(DicomTag.ScheduledProcedureStepStartTime, "140427");
             sps1.AddOrUpdate(DicomTag.ScheduledStationAETitle, "ECG");
             sps1.AddOrUpdate(DicomTag.ScheduledProcedureStepDescription, "EKG (Electro Cardiography)");
             sps1.AddOrUpdate(DicomTag.Modality, "ECG");

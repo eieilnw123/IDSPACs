@@ -288,3 +288,267 @@
 [2025-07-01 15:53:37.495 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
 [2025-07-01 15:53:37.514 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
 [2025-07-01 15:53:37.515 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 15:59:29.820 INF] [Program] 🔧 Initializing application...
+[2025-07-01 15:59:29.941 INF] [WorklistServiceApp.Data.DatabaseService] 🗄️ Database initialized successfully
+[2025-07-01 15:59:29.956 INF] [Program] ✅ Database connection: OK - Total items: 1
+[2025-07-01 15:59:29.966 INF] [Program] 🔗 Wiring up service events...
+[2025-07-01 15:59:29.969 INF] [Program] ✅ Service events wired up successfully
+[2025-07-01 15:59:29.970 INF] [Program] ✅ Application initialized successfully
+[2025-07-01 15:59:30.110 INF] [WorklistServiceApp.Services.WorklistSyncService] ⚙️ DICOM system initialized
+[2025-07-01 15:59:30.112 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 15:59:30.113 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 15:59:30.255 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 15:59:30.259 INF] [WorklistServiceApp.Services.PdfMonitoringService] ⚙️ PDF File Watcher configured successfully
+[2025-07-01 15:59:30.260 INF] [WorklistServiceApp.Services.PdfMonitoringService] 📊 Configuration: Filter=*.pdf, Subdirs=false, AutoProcess=true
+[2025-07-01 15:59:30.261 INF] [WorklistServiceApp.Services.PdfMonitoringService] 👁️ PDF Monitoring Service started
+[2025-07-01 15:59:30.262 INF] [WorklistServiceApp.Services.PdfMonitoringService] 📁 Watching folder: C:\Schiller\SchillerServers\_Data\Export\PDF
+[2025-07-01 15:59:30.263 INF] [WorklistServiceApp.Services.PdfMonitoringService] 📁 No existing PDF files found in watch folder
+[2025-07-01 15:59:30.265 INF] [WorklistServiceApp.Services.PdfProcessingService] ⚙️ PDF Processing Service initialized
+[2025-07-01 15:59:30.266 INF] [WorklistServiceApp.Services.PdfProcessingService] 📋 Using PDFiumSharp for PDF processing
+[2025-07-01 15:59:30.267 INF] [WorklistServiceApp.Services.PdfProcessingService] 🖼️ PDF Processing Service started
+[2025-07-01 15:59:30.268 INF] [WorklistServiceApp.Services.PdfProcessingService] 📁 JPEG output folder: C:\EKG_Temp\JPEG
+[2025-07-01 15:59:30.268 INF] [WorklistServiceApp.Services.PdfProcessingService] ⚙️ Max concurrent processing: 2
+[2025-07-01 15:59:30.269 INF] [WorklistServiceApp.Services.PdfProcessingService] 🎨 JPEG Quality: 95%, DPI: 300
+[2025-07-01 15:59:30.271 INF] [WorklistServiceApp.Services.PdfProcessingService] 📋 No pending PDF items found
+[2025-07-01 15:59:30.273 INF] [WorklistServiceApp.Services.DicomCreationService] ⚙️ DICOM Creation Service initialized
+[2025-07-01 15:59:30.274 INF] [WorklistServiceApp.Services.DicomCreationService] 📦 Transfer Syntax: 1.2.840.10008.1.2
+[2025-07-01 15:59:30.275 INF] [WorklistServiceApp.Services.DicomCreationService] 🏷️ SOP Class: 1.2.840.10008.5.1.4.1.1.7
+[2025-07-01 15:59:30.275 INF] [WorklistServiceApp.Services.DicomCreationService] 🏥 DICOM Creation Service started
+[2025-07-01 15:59:30.276 INF] [WorklistServiceApp.Services.DicomCreationService] 📁 DICOM output folder: C:\EKG_Output\DICOM
+[2025-07-01 15:59:30.276 INF] [WorklistServiceApp.Services.DicomCreationService] ⚙️ Max concurrent creation: 3
+[2025-07-01 15:59:30.277 INF] [WorklistServiceApp.Services.DicomCreationService] 🏥 Institution: โรงพยาบาล
+[2025-07-01 15:59:30.278 INF] [WorklistServiceApp.Services.DicomCreationService] 📁 No JPEG files found in temp folder
+[2025-07-01 15:59:31.270 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 15:59:31.285 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 15:59:31.286 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 15:59:31.296 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 WorklistSyncService started - syncing every 1 minutes
+[2025-07-01 15:59:31.296 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 15:59:31.297 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 15:59:31.298 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 15:59:31.402 INF] [idspacsgateway.Hubs.LogHub] Log viewer connected: qx9XADOYsFI30Ix1ugihhg
+[2025-07-01 15:59:32.304 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 15:59:32.312 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 15:59:32.313 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:00:31.300 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:00:31.301 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:00:31.302 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:00:32.306 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:00:32.315 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:00:32.316 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:01:31.309 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:01:31.310 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:01:31.311 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:01:32.326 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:01:32.336 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:01:32.337 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:02:31.302 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:02:31.303 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:02:31.304 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:02:32.310 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:02:32.320 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:02:32.320 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:03:31.308 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:03:31.309 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:03:31.309 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:03:32.310 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:03:32.320 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:03:32.321 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:04:16.649 INF] [idspacsgateway.Hubs.LogHub] Log viewer disconnected: qx9XADOYsFI30Ix1ugihhg
+[2025-07-01 16:04:16.828 INF] [idspacsgateway.Hubs.LogHub] Log viewer connected: Uw6dtzZKTizrhkdHZmUaSQ
+[2025-07-01 16:04:31.305 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:04:31.306 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:04:31.307 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:04:32.308 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:04:32.319 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:04:32.320 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:05:31.309 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:05:31.310 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:05:31.311 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:05:32.327 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:05:32.340 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:05:32.341 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:06:31.302 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:06:31.303 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:06:31.303 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:06:32.308 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:06:32.327 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:06:32.328 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:07:31.307 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:07:31.307 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:07:31.308 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:07:32.316 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:07:32.325 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:07:32.327 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:08:31.305 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:08:31.306 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:08:31.306 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:08:32.312 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:08:32.330 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:08:32.331 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:09:31.297 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:09:31.298 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:09:31.299 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:09:32.305 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:09:32.323 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:09:32.324 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:10:31.308 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:10:31.309 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:10:31.309 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:10:32.314 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:10:32.333 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:10:32.334 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:11:31.309 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:11:31.310 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:11:31.311 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:11:32.315 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:11:32.333 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:11:32.335 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:12:31.308 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:12:31.309 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:12:31.310 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:12:32.313 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:12:32.331 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:12:32.333 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:13:31.296 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:13:31.297 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:13:31.298 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:13:32.303 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:13:32.312 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:13:32.313 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:14:29.974 INF] [WorklistServiceApp.Services.PdfProcessingService] 📊 PDF Processing Statistics: Queued: 0, Processing: 0, Processed: 0, Failed: 0, Avg Time: 0.0ms, Queue Size: 0
+[2025-07-01 16:14:31.307 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:14:31.308 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:14:31.308 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:14:32.312 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:14:32.331 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:14:32.332 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:15:31.300 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:15:31.301 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:15:31.301 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:15:32.306 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:15:32.324 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:15:32.325 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:16:31.299 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:16:31.300 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:16:31.301 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:16:32.308 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:16:32.326 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:16:32.327 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:17:12.220 INF] [idspacsgateway.Hubs.LogHub] Log viewer disconnected: Uw6dtzZKTizrhkdHZmUaSQ
+[2025-07-01 16:17:12.373 INF] [idspacsgateway.Hubs.LogHub] Log viewer connected: gNFWGAR0gV_EdQb1u_4QtQ
+[2025-07-01 16:17:31.296 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:17:31.297 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:17:31.297 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:17:32.306 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:17:32.329 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:17:32.330 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:18:31.311 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:18:31.311 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:18:31.312 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:18:32.316 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:18:32.333 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:18:32.334 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:19:31.297 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:19:31.298 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:19:31.298 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:19:32.312 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:19:32.322 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:19:32.322 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:20:31.300 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:20:31.301 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:20:31.302 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:20:32.308 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:20:32.326 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:20:32.327 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:21:31.303 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:21:31.304 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:21:31.305 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:21:32.310 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:21:32.327 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:21:32.328 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:29:07.336 INF] [Program] 🔧 Initializing application...
+[2025-07-01 16:29:07.458 INF] [WorklistServiceApp.Data.DatabaseService] 🗄️ Database initialized successfully
+[2025-07-01 16:29:07.473 INF] [Program] ✅ Database connection: OK - Total items: 1
+[2025-07-01 16:29:07.483 INF] [Program] 🔗 Wiring up service events...
+[2025-07-01 16:29:07.485 INF] [Program] ✅ Service events wired up successfully
+[2025-07-01 16:29:07.486 INF] [Program] ✅ Application initialized successfully
+[2025-07-01 16:29:07.612 INF] [WorklistServiceApp.Services.WorklistSyncService] ⚙️ DICOM system initialized
+[2025-07-01 16:29:07.614 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:29:07.615 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:29:07.742 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:29:07.745 INF] [WorklistServiceApp.Services.PdfMonitoringService] ⚙️ PDF File Watcher configured successfully
+[2025-07-01 16:29:07.746 INF] [WorklistServiceApp.Services.PdfMonitoringService] 📊 Configuration: Filter=*.pdf, Subdirs=false, AutoProcess=true
+[2025-07-01 16:29:07.747 INF] [WorklistServiceApp.Services.PdfMonitoringService] 👁️ PDF Monitoring Service started
+[2025-07-01 16:29:07.747 INF] [WorklistServiceApp.Services.PdfMonitoringService] 📁 Watching folder: C:\Schiller\SchillerServers\_Data\Export\PDF
+[2025-07-01 16:29:07.748 INF] [WorklistServiceApp.Services.PdfMonitoringService] 📁 No existing PDF files found in watch folder
+[2025-07-01 16:29:07.750 INF] [WorklistServiceApp.Services.PdfProcessingService] ⚙️ PDF Processing Service initialized
+[2025-07-01 16:29:07.750 INF] [WorklistServiceApp.Services.PdfProcessingService] 📋 Using PDFiumSharp for PDF processing
+[2025-07-01 16:29:07.751 INF] [WorklistServiceApp.Services.PdfProcessingService] 🖼️ PDF Processing Service started
+[2025-07-01 16:29:07.752 INF] [WorklistServiceApp.Services.PdfProcessingService] 📁 JPEG output folder: C:\EKG_Temp\JPEG
+[2025-07-01 16:29:07.752 INF] [WorklistServiceApp.Services.PdfProcessingService] ⚙️ Max concurrent processing: 2
+[2025-07-01 16:29:07.753 INF] [WorklistServiceApp.Services.PdfProcessingService] 🎨 JPEG Quality: 95%, DPI: 300
+[2025-07-01 16:29:07.755 INF] [WorklistServiceApp.Services.PdfProcessingService] 📋 No pending PDF items found
+[2025-07-01 16:29:07.756 INF] [WorklistServiceApp.Services.DicomCreationService] ⚙️ DICOM Creation Service initialized
+[2025-07-01 16:29:07.757 INF] [WorklistServiceApp.Services.DicomCreationService] 📦 Transfer Syntax: 1.2.840.10008.1.2
+[2025-07-01 16:29:07.757 INF] [WorklistServiceApp.Services.DicomCreationService] 🏷️ SOP Class: 1.2.840.10008.5.1.4.1.1.7
+[2025-07-01 16:29:07.758 INF] [WorklistServiceApp.Services.DicomCreationService] 🏥 DICOM Creation Service started
+[2025-07-01 16:29:07.758 INF] [WorklistServiceApp.Services.DicomCreationService] 📁 DICOM output folder: C:\EKG_Output\DICOM
+[2025-07-01 16:29:07.759 INF] [WorklistServiceApp.Services.DicomCreationService] ⚙️ Max concurrent creation: 3
+[2025-07-01 16:29:07.759 INF] [WorklistServiceApp.Services.DicomCreationService] 🏥 Institution: โรงพยาบาล
+[2025-07-01 16:29:07.761 INF] [WorklistServiceApp.Services.DicomCreationService] 📁 No JPEG files found in temp folder
+[2025-07-01 16:29:08.748 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:29:08.770 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:29:08.771 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:29:08.781 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 WorklistSyncService started - syncing every 1 minutes
+[2025-07-01 16:29:08.781 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:29:08.782 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:29:08.783 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:29:09.263 INF] [idspacsgateway.Hubs.LogHub] Log viewer connected: Tx_hTO_jqJ9LArylj41TFA
+[2025-07-01 16:29:09.787 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:29:09.795 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:29:09.796 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:30:08.796 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:30:08.797 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:30:08.797 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:30:09.802 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:30:09.820 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:30:09.820 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:31:08.793 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:31:08.794 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:31:08.795 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:31:09.803 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:31:09.812 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:31:09.813 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:32:08.783 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:32:08.784 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:32:08.785 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:32:09.793 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:32:09.802 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:32:09.803 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:33:08.788 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:33:08.789 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:33:08.789 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:33:09.791 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:33:09.800 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:33:09.800 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:34:08.781 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:34:08.782 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:34:08.782 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:34:09.784 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:34:09.793 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:34:09.794 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:35:08.791 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:35:08.791 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:35:08.792 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:35:09.796 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:35:09.806 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:35:09.807 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:36:08.787 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:36:08.788 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:36:08.789 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
+[2025-07-01 16:36:09.791 INF] [WorklistServiceApp.Services.WorklistSyncService] 📥 Retrieved 1 worklist items from DICOM server
+[2025-07-01 16:36:09.800 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Updated: SED ADTHAN (57-24606) - 11391995
+[2025-07-01 16:36:09.801 INF] [WorklistServiceApp.Services.WorklistSyncService] 📊 Sync Summary: 0 new, 1 updated, 0 unchanged
+[2025-07-01 16:37:08.787 INF] [WorklistServiceApp.Services.WorklistSyncService] 🔄 Starting worklist synchronization...
+[2025-07-01 16:37:08.787 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Development Mode: Using Mock DICOM Worklist Data
+[2025-07-01 16:37:08.788 INF] [WorklistServiceApp.Services.WorklistSyncService] 🎭 Generated 1 mock worklist items
